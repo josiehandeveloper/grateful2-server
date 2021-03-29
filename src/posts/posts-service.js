@@ -1,9 +1,6 @@
 const PostsService = {
   getAllPosts(knex) {
-    return knex.select("*").from("posts");
-  },
-  getAllPostsByUser(knex, user_id) {
-    return knex.select("*").from("posts").where({ user_id });
+    return knex.select("*").from("posts").orderBy("date_created", "desc");
   },
   insertPost(knex, newPost) {
     return knex
@@ -14,15 +11,8 @@ const PostsService = {
         return row[0];
       });
   },
-  getById(knex, id) {
-    return knex.from("posts").select("*").where("id", id).first();
-  },
   deletePost(knex, id) {
     return knex("posts").where({ id }).delete();
-  },
-
-  updatePost(knex, id, newPostFields) {
-    return knex("posts").where({ id }).update(newPostFields);
   },
 };
 

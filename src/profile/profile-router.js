@@ -13,11 +13,6 @@ profileRouter
   .get(requireAuth, (req, res, next) => {
     ProfileService.getAllPostsByUser(req.app.get("db"), req.user.id)
       .then((posts) => {
-        if (!posts) {
-          return res.status(404).json({
-            error: { message: `No Posts` },
-          });
-        }
         res.json(posts);
       })
       .catch(next);

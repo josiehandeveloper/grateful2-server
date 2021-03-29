@@ -10,7 +10,7 @@ const jsonParser = express.json();
 postsRouter
   .route("/")
   .get(requireAuth, (req, res, next) => {
-    PostsService.getAllPosts(req.app.get("db"))
+    PostsService.getAllPosts(req.app.get("db"), req.user.id)
       .then((posts) => {
         res.json(posts);
       })

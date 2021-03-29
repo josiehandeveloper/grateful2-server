@@ -1,6 +1,10 @@
 const ProfileService = {
   getAllPostsByUser(knex, user_id) {
-    return knex.select("*").from("posts").where({ user_id });
+    return knex
+      .select("*")
+      .from("posts")
+      .where({ user_id })
+      .orderBy("date_created", "desc");
   },
   insertPost(knex, newPost) {
     return knex
@@ -12,7 +16,7 @@ const ProfileService = {
       });
   },
   getById(knex, id) {
-    return knex.from("posts").select("*").where("id", id).first();
+    return knex.from("posts").select("*").where("id", id);
   },
   deletePost(knex, id) {
     return knex("posts").where({ id }).delete();

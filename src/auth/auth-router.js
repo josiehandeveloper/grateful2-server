@@ -12,8 +12,8 @@ authRouter
     next();
   })
   .post(jsonParser, (req, res, next) => {
-    const { email, password } = req.body;
-    const user = { email, password };
+    const { email, password, user_id } = req.body;
+    const user = { email, password, user_id };
 
     for (const field of ["email", "password"]) {
       if (!req.body[field]) {
