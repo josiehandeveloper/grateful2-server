@@ -3,7 +3,7 @@ const knex = require("knex");
 const { test } = require("mocha");
 const supertest = require("supertest");
 const app = require("../src/app");
-const { makeMoviesArr } = require("./test-helpers");
+const { makePostsArr } = require("./test-helpers");
 const testHelpers = require("./test-helpers");
 
 describe("Posts Endpoints", function () {
@@ -23,7 +23,11 @@ describe("Posts Endpoints", function () {
   );
 
   beforeEach("register and login", () => {
-    let user = { email: "testuser@test.com", password: "P@ssword1234" };
+    let user = {
+      email: "testuser@test.com",
+      username: "testuser1",
+      password: "P@ssword1234",
+    };
     return supertest(app)
       .post("/api/users")
       .send(user)
@@ -47,42 +51,37 @@ describe("Posts Endpoints", function () {
     return db.into("posts").insert(testPosts);
   });
 
-  it.only(`responds with 200 and an empty list`, () => {
+  it(`responds with 200 and an empty list`, () => {
     return db.raw("TRUNCATE TABLE posts RESTART IDENTITY CASCADE").then(() => {
       return supertest(app)
-        .get("/api/posts")
+        .get("/api/feed")
         .set("Authorization", `Bearer ${authToken}`)
         .expect(200, []);
     });
   });
   it(`responds with 200 and one post`, () => {
     return supertest(app)
-      .get("/api/posts")
+      .get("/api/feed")
       .set("Authorization", `Bearer ${authToken}`)
       .expect(200)
       .then((res) => {
         expect(res.body).to.be.an("array");
-        expect(res.body.title).to.eql(testMovies.title);
+        expect(res.body.content).to.eql(testPosts.content);
       });
   });
 
-  it("creates a movie and responds with 201 and the object", () => {
-    const newMovie = {
-      title: "test1",
-      poster_path: "test posterpath",
-      vote_average: 7,
-      user_id: 1,
-      datecreated: "2020-10-21",
+  it("creates a post and responds with 201 and the object", () => {
+    const newPost = {
+      content: "test1",
     };
     return supertest(app)
-      .post("/api/movies")
-      .send(newMovie)
+      .post("/api/feed")
+      .send(newPost)
       .set("Authorization", `Bearer ${authToken}`)
       .expect(201)
       .expect((res) => {
-        expect(res.body.title).to.eql(newMovie.title);
-        expect(res.body.poster_path).to.eql(newMovie.poster_path);
-        expect(res.headers.location).to.eql(`/movies`);
+        expect(res.body.content).to.eql(newPost.content);
+        expect(res.headers.location).to.eql(`/feed`);
       })
       .then((postRes) => {
         /*return supertest(app)
@@ -93,14 +92,12 @@ describe("Posts Endpoints", function () {
       });
   });
 
-  it("responds with 204 and removes the movie", () => {
+  it("responds with 204 and removes the post", () => {
     const idToRemove = 2;
-    const expectedMovies = testMovies.filter(
-      (movie) => movie.id !== idToRemove
-    );
+    const expectedPosts = testPosts.filter((post) => post.id !== idToRemove);
     return supertest(app)
-      .delete(`/api/movies/`)
-      .send({ movie_id: idToRemove })
+      .delete(`/api/dashboard`)
+      .send({ post_id: idToRemove })
       .set("Authorization", `Bearer ${authToken}`)
       .expect(204);
   });

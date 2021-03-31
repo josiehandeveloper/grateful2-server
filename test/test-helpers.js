@@ -57,10 +57,10 @@ function makeExpectedPost(users, post) {
   };
 }
 
-function makeMoviesFixtures() {
+function makePostsFixtures() {
   const testUsers = makeUsersArr();
-  const testMovies = makeMoviesArr(testUsers);
-  return { testUsers, testMovies };
+  const testPosts = makePostsArr(testUsers);
+  return { testUsers, testPosts };
 }
 
 function cleanTables(db) {
@@ -126,7 +126,7 @@ module.exports = {
   makeUsersArr,
   makePostsArr,
   makeExpectedPost,
-  makeMoviesFixtures,
+  makePostsFixtures,
   cleanTables,
   seedPostsTables,
   makeAuthHeader,

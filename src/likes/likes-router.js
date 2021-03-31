@@ -17,7 +17,7 @@ likesRouter
   })
   .post(requireAuth, jsonBodyParser, (req, res, next) => {
     const { post_id, count, user_id } = req.body;
-    const newLike = { post_id, count, user_id };
+    const newLike = { post_id, count, user_id: req.user.id };
     console.log(req.body);
 
     for (const [key, value] of Object.entries(newLike)) {
