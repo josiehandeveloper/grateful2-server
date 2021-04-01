@@ -1,15 +1,13 @@
 const LikesService = {
   getLikes(knex) {
-    return knex.select("*").from("likes");
+    return knex.select("*").from("posts");
   },
-  insertLike(knex, newLike) {
-    return knex
-      .insert(newLike)
-      .into("likes")
-      .returning("*")
-      .then((row) => {
-        return row[0];
-      });
+  insertLike(knex, { post_id, count }) {
+    return knex("posts")
+      .where({ id: `${post_id}` })
+      .update({ likes: `${count}` });
+    // .into("likes")
+    // .returning("*")
   },
   serializeLike(like) {
     return {

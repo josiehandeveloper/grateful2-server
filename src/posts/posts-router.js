@@ -12,6 +12,7 @@ postsRouter
   .get(requireAuth, (req, res, next) => {
     PostsService.getAllPosts(req.app.get("db"), req.user.id)
       .then((posts) => {
+        console.log(posts);
         res.json(posts);
       })
       .catch(next);
@@ -35,41 +36,41 @@ postsRouter
       .catch(next);
   });
 
-postsRouter
-  .route("/:post_id")
-  .all(requireAuth)
-  .get((req, res) => {
-    res.json(res.post);
-  });
+// postsRouter
+//   .route("/:post_id")
+//   .all(requireAuth)
+//   .get((req, res) => {
+//     res.json(res.post);
+//   });
 
-postsRouter
-  .route("/:post_id/likes")
-  .all(requireAuth)
-  .get((req, res, next) => {
-    PostsService.getAllPostLikes(req.app.get("db"), req.post_id)
-      .then((likes) => {
-        res.json(likes.map(like));
-      })
-      .catch(next);
-  })
-  .post(requireAuth, jsonParser, (req, res, next) => {
-    const { likes } = req.body;
-    const newLike = { likes, user_id: req.user.id, content };
-    console.log(req.body);
+// postsRouter
+//   .route("/:post_id")
+//   .all(requireAuth)
+//   .get((req, res, next) => {
+//     PostsService.getAllPostLikes(req.app.get("db"), req.post_id)
+//       .then((likes) => {
+//         res.json(likes.map(like));
+//       })
+//       .catch(next);
+//   })
+//   .patch(requireAuth, jsonParser, (req, res, next) => {
+//     const { likes } = req.body;
+//     const newPostLike = { likes };
+//     console.log(req.body);
 
-    for (const [key, value] of Object.entries(newLike)) {
-      if (value == null) {
-        return res.status(400).json({
-          error: { message: `Missing '${key}' in request body` },
-        });
-      }
-    }
+//     for (const [key, value] of Object.entries(newPostLike)) {
+//       if (value == null) {
+//         return res.status(400).json({
+//           error: { message: `Missing '${key}' in request body` },
+//         });
+//       }
+//     }
 
-    PostsService.insertLikeIntoPost(req.app.get("db"), newLike)
-      .then((like) => {
-        res.status(201).json(like);
-      })
-      .catch(next);
-  });
+//     PostsService.updatePost(req.app.get("db"), req.params.post_id, newPostLike)
+//       .then((numRowsAffected) => {
+//         res.status(204).end();
+//       })
+//       .catch(next);
+//   });
 
 module.exports = postsRouter;

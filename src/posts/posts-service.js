@@ -17,19 +17,6 @@ const PostsService = {
   deletePost(knex, id) {
     return knex("posts").where({ id }).delete();
   },
-  getAllPostLikes(knex) {
-    return knex.select("*").from("posts").where("likes");
-  },
-  insertLikeIntoPost(knex, newLike) {
-    return knex
-      .insert(newLike)
-      .into("posts")
-      .where("likes")
-      .returning("*")
-      .then((row) => {
-        return row[0];
-      });
-  },
 };
 
 module.exports = PostsService;
