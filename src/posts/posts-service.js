@@ -17,6 +17,12 @@ const PostsService = {
   deletePost(knex, id) {
     return knex("posts").where({ id }).delete();
   },
+  getPostLikes(knex) {
+    return knex.select("likes").from("posts");
+  },
+  updateLike(knex, post_id, likes) {
+    return knex("posts").where("id", "=", post_id).update({ likes });
+  },
 };
 
 module.exports = PostsService;

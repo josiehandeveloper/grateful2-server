@@ -31,46 +31,30 @@ postsRouter
 
     PostsService.insertPost(req.app.get("db"), newPost)
       .then((post) => {
-        res.status(201).location(`/feed`).json(post);
+        res.status(201).location(`/`).json(post);
       })
       .catch(next);
   });
-
-// postsRouter
-//   .route("/:post_id")
-//   .all(requireAuth)
-//   .get((req, res) => {
-//     res.json(res.post);
-//   });
-
-// postsRouter
-//   .route("/:post_id")
-//   .all(requireAuth)
-//   .get((req, res, next) => {
-//     PostsService.getAllPostLikes(req.app.get("db"), req.post_id)
-//       .then((likes) => {
-//         res.json(likes.map(like));
-//       })
-//       .catch(next);
-//   })
-//   .patch(requireAuth, jsonParser, (req, res, next) => {
-//     const { likes } = req.body;
-//     const newPostLike = { likes };
-//     console.log(req.body);
-
-//     for (const [key, value] of Object.entries(newPostLike)) {
-//       if (value == null) {
-//         return res.status(400).json({
-//           error: { message: `Missing '${key}' in request body` },
-//         });
-//       }
-//     }
-
-//     PostsService.updatePost(req.app.get("db"), req.params.post_id, newPostLike)
-//       .then((numRowsAffected) => {
-//         res.status(204).end();
-//       })
-//       .catch(next);
-//   });
+postsRouter
+  .route("/:postId/likes")
+  .get(requireAuth, (req, res, next) => {
+    PostsService.getPostLikes(req.app.get("db"), parseInt(req.params.postId))
+      .then((likes) => {
+        res.json(likes);
+      })
+      .catch(next);
+  })
+  .patch(requireAuth, jsonParser, (req, res, next) => {
+    const { likes } = req.body;
+    PostsService.updateLike(
+      req.app.get("db"),
+      parseInt(req.params.postId),
+      likes
+    )
+      .then((likes) => {
+        res.json(likes);
+      })
+      .catch(next);
+  });
 
 module.exports = postsRouter;
