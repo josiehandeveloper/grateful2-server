@@ -12,7 +12,6 @@ postsRouter
   .get(requireAuth, (req, res, next) => {
     PostsService.getAllPosts(req.app.get("db"), req.user.id)
       .then((posts) => {
-        // console.log(posts);
         res.json(posts);
       })
       .catch(next);
@@ -46,7 +45,6 @@ postsRouter
   })
   .patch(requireAuth, jsonParser, (req, res, next) => {
     const { likes } = req.body;
-    console.log(likes);
     PostsService.updateLike(
       req.app.get("db"),
       parseInt(req.params.postId),
