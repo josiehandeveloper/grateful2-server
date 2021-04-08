@@ -1,26 +1,22 @@
-# Express Boilerplate!
+# Grateful
 
-This is a boilerplate project used for starting new projects!
+https://grateful-app.vercel.app/
 
-## Set up
+## API Documentation:
 
-Complete the following steps to start a new project (NEW-PROJECT-NAME):
+https://github.com/josiehandeveloper/grateful2-server.git
 
-1. Clone this repository to your local machine `git clone BOILERPLATE-URL NEW-PROJECTS-NAME`
-2. `cd` into the cloned repository
-3. Make a fresh start of the git history for this project with `rm -rf .git && git init`
-4. Install the node dependencies `npm install`
-5. Move the example Environment file to `.env` that will be ignored by git and read by the express server `mv example.env .env`
-6. Edit the contents of the `package.json` to use NEW-PROJECT-NAME instead of `"name": "express-boilerplate",`
+SnapShot:
 
-## Scripts
+![](https://github.com/josiehandeveloper/grateful-app/blob/main/src/images/Screen%20Shot%202021-04-07%20at%2011.27.00%20PM%20(2).png)
 
-Start the application `npm start`
+## Description:
 
-Start nodemon for the application `npm run dev`
+Watch It is an application where users can log their gratitude and like different posts that other users have posted. Practicing gratitude is an important part of being mindful and in these tough times it's inherent that we should focus on our mental health. 
 
-Run the tests `npm test`
+Test Login: testuser@testuser.com
+Test Password: Testuser1!
 
-## Deploying
+## Technology Used:
+React, CSS, Node, Express, and PostgreSQL
 
-When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's main branch.
