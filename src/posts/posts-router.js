@@ -34,26 +34,5 @@ postsRouter
       })
       .catch(next);
   });
-postsRouter
-  .route("/:postId/likes")
-  .get(requireAuth, (req, res, next) => {
-    PostsService.getPostLikes(req.app.get("db"), parseInt(req.params.postId))
-      .then((likes) => {
-        res.json(likes);
-      })
-      .catch(next);
-  })
-  .patch(requireAuth, jsonParser, (req, res, next) => {
-    const { likes } = req.body;
-    PostsService.updateLike(
-      req.app.get("db"),
-      parseInt(req.params.postId),
-      likes
-    )
-      .then((likes) => {
-        res.json(likes);
-      })
-      .catch(next);
-  });
 
 module.exports = postsRouter;
